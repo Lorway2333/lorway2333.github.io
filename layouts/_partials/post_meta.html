@@ -1,0 +1,30 @@
+{{- $meta := slice }}
+
+{{- $content := .Content | plainify | htmlUnescape }}
+{{- $chars := replaceRE `\s+` "" $content | countrunes }}
+{{- $minutes := div (add $chars 299) 300 }}
+{{- $minutes = cond (lt $minutes 1) 1 $minutes }}
+
+{{- if not .Date.IsZero -}}
+{{- $meta = $meta | append (printf "<span title='%s'>%s</span>" (.Date | time.Format "2006-01-02T15:04:05-07:00") (.Date
+| time.Format (default ":date_long" site.Params.DateFormat))) }}
+{{- end }}
+
+{{- if (.Param "ShowReadingTime") -}}
+{{- $meta = $meta | append (printf "<span>%s</span>" (i18n "read_time" $minutes | default (printf "%d min" $minutes)))
+}}
+{{- end }}
+
+{{- if (.Param "ShowWordCount") -}}
+{{- $meta = $meta | append (printf "<span>%s</span>" (i18n "words" $chars | default (printf "%d words" $chars))) }}
+{{- end }}
+
+{{- if not (.Param "hideAuthor") -}}
+{{- with (partial "author.html" .) }}
+{{- $meta = $meta | append (printf "<span>%s</span>" .) }}
+{{- end }}
+{{- end }}
+
+{{- with $meta }}
+{{- delimit . "&nbsp;·&nbsp;" | safeHTML -}}
+{{- end -}}
