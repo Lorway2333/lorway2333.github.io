@@ -9,7 +9,6 @@ theme = "PaperMod"
 
 [params]
   env = "production"
-  description = "年味渐浓"
   author = "罗怀爱"
   DateFormat = "2006-01-02"
   defaultTheme = "auto"
@@ -22,11 +21,7 @@ theme = "PaperMod"
   TocOpen = false
   ShowWordCount = true
   UseHugoToc = true
-
-  [params.homeInfoParams]
-    Title = "词不达意"
-    Content = "风把我不想知道的事情告诉我,河把我不想忘记的故事也带走"
-    mainSections = ["posts", "notes"]
+mainSections = ["posts", "notes"]
 
   [[params.socialIcons]]
     name = "github"
